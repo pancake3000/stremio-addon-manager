@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="description" content="Stremio Addon Manager">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stremio Addon Manager</title>
+    <link rel="stylesheet" href="https://unpkg.com/chota@latest">
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
+    <script src="script.js" defer></script>
+    <style>
+        body>.container {
+            max-width: 720px;
+        }
+
+        .logo {
+            flex: 1;
+            flex-direction: column;
+            margin-top: 10%;
+        }
+
+        .logo svg {
+            width: 100%;
+            max-width: 300px;
+        }
+
+        .logo h3 {
+            font-weight: 300;
+            text-align: center;
+        }
+
+        body>footer {
+            background-color: #fafafa;
+            padding: 4rem;
+        }
+
+        body.dark>footer {
+            background-color: #262626;
+        }
+
+        section {
+            margin: 5rem auto;
+        }
+
+        .install button {
+            text-align: center;
+        }
+
+        .install {
+            margin-bottom: 1rem;
+        }
+
+        /* sortable list/addon list specifics */
+        .sortable-list {
+            padding: 25px;
+            background: #fff;
+            border-radius: 7px;
+            padding: 30px 25px 20px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .sortable-list .item {
+            list-style: none;
+            display: flex;
+            cursor: move;
+            background: #fff;
+            align-items: center;
+            border-radius: 5px;
+            padding: 10px 13px;
+            margin-bottom: 11px;
+            /* box-shadow: 0 2px 4px rgba(0,0,0,0.06); */
+            border: 1px solid #ccc;
+            justify-content: space-between;
+        }
+
+        .item .details {
+            display: flex;
+            align-items: center;
+        }
+
+        .item .details img {
+            height: 43px;
+            width: 43px;
+            pointer-events: none;
+            margin-right: 12px;
+            object-fit: contain;
+            object-position: center;
+            border-radius: 50%;
+            background-color: #262626;
+
+        }
+
+        .item.dragging {
+            opacity: 0.6;
+        }
+
+        .item.dragging :where(.details, i) {
+            opacity: 0;
+        }
+    </style>
+</head>
+
+<body id="top" class="dark">
+    <div class="container">
+        <div class="hero">
+            <div class="logo is-center is-vertical-align">
+                <h1>Stremio Addon Manager</h1>
+                <h3>Re-order and remove <strong>Stremio</strong> addons from your profile.
+                </h3>
+                <small><em>For power users - use it at your own risk.</em></small>
+            </div>
+        </div>
+        <section id="features">
+            <h2>Why?</h2>
+            <p>
+                Stremio currently doesn't allow users to change the order that their installed addons appear on the home
+                screen.
+                As a work around, it is common for users to remove and re-install addons in the order they want
+                them to appear. This is a tedious and cumbersome process. This addon uses the internal Stremio API to
+                manipulate addon order without having to add/remove them.
+            </p>
+            <p>
+                This is a <strong>workaround</strong> and not a <strong>solution</strong>. It is not recommended to
+                use this tool unless you are comfortable with the risks involved.
+                <strong>No support or warranty is given.</strong>
+            </p>
+            <h3>How?</h3>
+            <ol>
+                <li>Login to <a href="https://web.stremio.com/">https://web.stremio.com/</a> using your Stremio
+                    credentials in your browser.</li>
+                <li>
+                    Open the developer console and paste the follow code snippet
+                    <code>JSON.parse(localStorage.getItem("profile")).auth.key</code>
+                </li>
+                <li>Take the output value and paste it into the form below.</li>
+                <li>Click 'Load Addons' to load your profiles addons.</li>
+                <li>Re-order your addons as you like.</li>
+                <li>Click the 'Sync To Stremio' button to sync the changes back to your profile.</li>
+            </ol>
+        </section>
+        <section id="configure">
+            <h2>Configure</h2>
+            <form onsubmit="return false;">
+                <fieldset id="form_step0">
+                    <legend>Step 0: Paste Stremio AuthKey</legend>
+                    <p class="grouped">
+                        <input type="password" id="stremio_authkey_input_field"
+                            placeholder="Paste Stremio AuthKey here...">
+                        <button class="button primary" id="load_addons_button">Load Addons</button>
+                    </p>
+                </fieldset>
+                <fieldset id="form_step1">
+                    <legend>Step 1: Re-Order Addons</legend>
+                    <ul class="sortable-list">
+                        <!-- Placeholder for addon items -->
+                    </ul>
+                </fieldset>
+                <fieldset id="form_step2">
+                    <legend>Step 2: Sync Addons</legend>
+                    <button type="button" class="button primary icon" id="sync_addons_button">Sync to Stremio
+                        <img src="https://icongr.am/feather/loader.svg?size=16&amp;color=ffffff" alt="icon">
+                    </button>
+                </fieldset>
+            </form>
+
+        </section>
+        <section id="thanks">
+            <h3>Thank you</h3>
+            <p>Big thank you to <code>Sleeyax</code> and <code>&#60;Code/&#62;</code> for the conversations and code
+                snippets that made this really easy to implement.</p>
+
+        </section>
+
+        <section id="faq">
+            <h2>Frequently Asked Questions</h2>
+            <details>
+                <summary>
+                    What risks are involved?
+                </summary>
+                <p>
+                    This was whipped together in a couple of hours. It is not well tested and may break your Stremio
+                    profile. Stremio functionality relies on the existence of certain addons (ie, Cinemeta). It is
+                    possible that the order of addons is also important to some functionality.
+                </p>
+                <p>
+                    There is currently no way to 'reset' your addons to previous configurations or default
+                    configurations.
+                </p>
+            </details>
+        </section>
+        <div>
+            <p>Made with ❤️, 🤖 and 🥞's - enjoy!</p>
+        </div>
+    </div>
+</body>
+
+</html>
