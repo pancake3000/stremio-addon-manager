@@ -15,5 +15,17 @@
                 configurations.
             </p>
         </details>
+        <details>
+            <summary>
+                Can I use this to move Cinemeta catalogs from the top?
+            </summary>
+            <p>
+                Yes! This will allow you to move the Cinemeta provided catalogs (ie, Popular - Series/Movie and Featured -
+                Series/Movie) from the top of your catalog list.
+            </p>
+            <p>
+                Do note that the in-built 'Continue watching' catalog cannot be moved from the top.
+            </p>
+        </details>
     </section>
 </template>
