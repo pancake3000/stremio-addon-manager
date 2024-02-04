@@ -22,7 +22,8 @@ defineProps({
 <template>
   <div class="hero">
     <div class="logo is-center is-vertical-align">
-      <h1>{{ addonName }}</h1>
+      <img v-if="addonLogo" :src="addonLogo" alt="Addon logo" />
+      <h1 v-else>{{ addonName }}</h1>
       <h3>{{ addonSummary }}</h3>
       <small><em>{{ addonTagline }}</em></small>
     </div>

@@ -10,8 +10,9 @@ import Footer from './components/Footer.vue'
 
 <template>
   <header>
-    <Header addonName="Stremio Addon Manager" addonSummary="Re-order and remove Stremio addons from your profile."
-      addonTagline="For power users - use it at your own risk." />
+    <Header addonName="Stremio Addon Manager"
+      addonSummary="Effortlessly manage the order of your Stremio addons without re-installing."
+      addonTagline="Including the default Cinemeta catalogs." addonLogo="logo.png" />
   </header>
   <main>
     <Summary />
