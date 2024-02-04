@@ -1,0 +1,24 @@
+body>.container {
+    max-width: 720px;
+}
+
+body>footer {
+    background-color: #fafafa;
+    padding: 4rem;
+}
+
+body.dark>footer {
+    background-color: #262626;
+}
+
+section {
+    margin: 5rem auto;
+}
+
+.install button {
+    text-align: center;
+}
+
+.install {
+    margin-bottom: 1rem;
+}
