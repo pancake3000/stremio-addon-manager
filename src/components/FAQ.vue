@@ -17,6 +17,20 @@
         </details>
         <details>
             <summary>
+                What is the developer console and how do I open it?
+            </summary>
+            <p>
+                The browser developer console is a tool which logs the information associated with a web application, such
+                as network requests and errors. It also allows you to interact with the loaded web page using JavaScript.
+                Most modern browsers have a developer console built in.
+            </p>
+            <p>
+                Use <a href="https://balsamiq.com/support/faqs/browserconsole/" target="_blank">this guide</a> to open your
+                browsers developer console, ensuring have the Stremio web app open.
+            </p>
+        </details>
+        <details>
+            <summary>
                 Can I use this to move Cinemeta catalogs from the top?
             </summary>
             <p>
