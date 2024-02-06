@@ -29,5 +29,15 @@ npm run dev
 npm run build
 ```
 
+## Docker
+Run the following commands to build and run the app in a Docker container:
+
+```bash
+$ docker build -t stremio-addon-manager .
+$ docker run -p 8080:80 stremio-addon-manager
+```
+
+The app will be accessible at `http://localhost:8080`.
+
 ## Thanks
 Big thank you to `Sleeyax` and `<Code/>` for the conversations and code snippets that made this really easy to implement.
