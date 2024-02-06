@@ -7,10 +7,27 @@ Manage your Stremio addons with ease.
 - Re-order your addons (including Cinemeta)
 - Remove non-protected addons
 
-## Installation
-1. Clone this repository
-2. Open `web/index.html` in your browser
-3. Follow instructions on the page
+## Recommended IDE Setup
+
+[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur)
+
+## Project Setup
+
+```sh
+npm install
+```
+
+### Compile and Hot-Reload for Development
+
+```sh
+npm run dev
+```
+
+### Compile and Minify for Production
+
+```sh
+npm run build
+```
 
 ## Thanks
 Big thank you to `Sleeyax` and `<Code/>` for the conversations and code snippets that made this really easy to implement.
