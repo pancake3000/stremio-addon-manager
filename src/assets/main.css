@@ -19,6 +19,6 @@ input, .sortable-list {
     background-color: var(--bg-secondary-color);
 }
 
-::placeholder {
+input::placeholder, input {
     color: var(--font-color);
 }
