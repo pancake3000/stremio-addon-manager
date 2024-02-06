@@ -81,6 +81,16 @@ function removeAddon(idx) {
     addons.value.splice(idx, 1)
 }
 
+
+function getNestedObjectProperty(obj, path, defaultValue = null) {
+    try {
+        console.log('path', path, 'obj', obj, 'defaultValue', defaultValue)
+        return path.split('.').reduce((acc, part) => acc && acc[part], obj)
+    } catch (e) {
+        return defaultValue
+    }
+}
+
 </script>
 
 <template>
@@ -102,8 +112,10 @@ function removeAddon(idx) {
                     @start="dragging = true" @end="dragging = false">
                     <template #item="{ element, index }">
                         <AddonItem :name="element.manifest.name" :idx="index" :manifestURL="element.transportUrl"
-                            :logoURL="element.manifest.logo" :isDeletable="!element.flags.protected"
-                            :isConfigurable="element.manifest.behaviorHints.configurable" @delete-addon="removeAddon" />
+                            :logoURL="element.manifest.logo"
+                            :isDeletable="!getNestedObjectProperty(element, 'flags.protected', false)"
+                            :isConfigurable="getNestedObjectProperty(element, 'manifest.behaviorHints.configurable', false)"
+                            @delete-addon="removeAddon" />
                     </template>
                 </draggable>
             </fieldset>
