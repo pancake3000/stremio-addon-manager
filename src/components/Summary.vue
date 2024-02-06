@@ -15,7 +15,7 @@
     </p>
     <h3>How?</h3>
     <ol>
-      <li>Login to <a href="https://web.stremio.com/">https://web.stremio.com/</a> using your Stremio
+      <li>Login to <a href="https://web.stremio.com/" target="_blank">https://web.stremio.com/</a> using your Stremio
         credentials in your browser.</li>
       <li>
         Open the developer console and paste the follow code snippet
