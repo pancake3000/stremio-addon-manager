@@ -87,7 +87,6 @@ function removeAddon() {
   list-style: none;
   display: flex;
   cursor: move;
-  background: #fff;
   align-items: center;
   border-radius: 5px;
   padding: 10px 13px;
