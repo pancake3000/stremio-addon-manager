@@ -96,6 +96,10 @@ function removeAddon() {
   justify-content: space-between;
 }
 
+.dark .sortable-list .item {
+  border: 1px solid #434242;
+}
+
 .item .details {
   display: flex;
   align-items: center;
