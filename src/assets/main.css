@@ -20,6 +20,10 @@ input,
     background-color: var(--bg-secondary-color);
 }
 
+details>summary {
+    cursor: pointer;
+}
+
 input::placeholder,
 input {
     color: var(--font-color);
