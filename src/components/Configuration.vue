@@ -7,7 +7,7 @@ const stremioAPIBase = "https://api.strem.io/api/"
 
 const stremioAuthKey = ref('')
 let addons = ref([])
-
+let loadAddonsButtonText = ref('Load Addons')
 const dragging = false
 
 function getCleansedStremioAuthKey() {
@@ -21,7 +21,7 @@ function loadUserAddons() {
         return
     }
 
-    alert('Loading addons')
+    loadAddonsButtonText.value = 'Loading...'
     console.log('Loading addons...')
 
     const url = `${stremioAPIBase}addonCollectionGet`
@@ -35,10 +35,17 @@ function loadUserAddons() {
     }).then((resp) => {
         resp.json().then((data) => {
             console.log(data)
+            if (!("result" in data) || data.result == null) {
+                console.error("Failed to fetch user addons: ", data)
+                alert('Failed to fetch user addons - are you sure you pasted the correct Stremio AuthKey?')
+                return
+            }
             addons.value = data.result.addons
         })
     }).catch((error) => {
         console.error('Error fetching user addons', error)
+    }).finally(() => {
+        loadAddonsButtonText.value = 'Load Addons'
     })
 }
 
@@ -84,7 +91,6 @@ function removeAddon(idx) {
 
 function getNestedObjectProperty(obj, path, defaultValue = null) {
     try {
-        console.log('path', path, 'obj', obj, 'defaultValue', defaultValue)
         return path.split('.').reduce((acc, part) => acc && acc[part], obj)
     } catch (e) {
         return defaultValue
@@ -102,7 +108,7 @@ function getNestedObjectProperty(obj, path, defaultValue = null) {
                 <p class="grouped">
                     <input type="password" v-model="stremioAuthKey" placeholder="Paste Stremio AuthKey here...">
                     <button class="button primary" @click="loadUserAddons">
-                        Load Addons
+                        {{ loadAddonsButtonText }}
                     </button>
                 </p>
             </fieldset>
