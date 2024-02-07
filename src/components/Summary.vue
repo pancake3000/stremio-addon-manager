@@ -18,7 +18,7 @@
       <li>Login to <a href="https://web.stremio.com/" target="_blank">https://web.stremio.com/</a> using your Stremio
         credentials in your browser.</li>
       <li>
-        Open the developer console and paste the follow code snippet
+        Open the developer console <a href="#faq">(?)</a> and paste the follow code snippet:
         <code>JSON.parse(localStorage.getItem("profile")).auth.key</code>
       </li>
       <li>Take the output value and paste it into the form below.</li>

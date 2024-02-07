@@ -7,7 +7,7 @@ body.dark {
     --color-lightGrey: #555;
 }
 
-body > .container {
+body>.container {
     max-width: 720px;
 }
 
@@ -15,10 +15,16 @@ section {
     margin: 5rem auto;
 }
 
-input, .sortable-list {
+input,
+.sortable-list {
     background-color: var(--bg-secondary-color);
 }
 
-input::placeholder, input {
+details>summary {
+    cursor: pointer;
+}
+
+input::placeholder,
+input {
     color: var(--font-color);
 }
