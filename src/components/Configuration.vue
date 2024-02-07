@@ -134,7 +134,6 @@ function getNestedObjectProperty(obj, path, defaultValue = null) {
 /* sortable list/addon list specifics */
 .sortable-list {
     padding: 25px;
-    background: #fff;
     border-radius: 7px;
     padding: 30px 25px 20px;
     box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
