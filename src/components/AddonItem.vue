@@ -87,7 +87,6 @@ function removeAddon() {
   list-style: none;
   display: flex;
   cursor: move;
-  background: #fff;
   align-items: center;
   border-radius: 5px;
   padding: 10px 13px;
@@ -95,6 +94,10 @@ function removeAddon() {
   /* box-shadow: 0 2px 4px rgba(0,0,0,0.06); */
   border: 1px solid #ccc;
   justify-content: space-between;
+}
+
+.dark .sortable-list .item {
+  border: 1px solid #434242;
 }
 
 .item .details {
