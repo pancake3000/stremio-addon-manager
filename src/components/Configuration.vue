@@ -6,9 +6,13 @@ import AddonItem from './AddonItem.vue'
 const stremioAPIBase = "https://api.strem.io/api/"
 
 const stremioAuthKey = ref('')
+const stremioEmail = ref('')
+const stremioPassword = ref('')
+const dragging = false
+
 let addons = ref([])
 let loadAddonsButtonText = ref('Load Addons')
-const dragging = false
+let loginButtonText = ref('Login')
 
 function getCleansedStremioAuthKey() {
     return stremioAuthKey.value.replaceAll('"', '').trim();
@@ -97,6 +101,31 @@ function getNestedObjectProperty(obj, path, defaultValue = null) {
     }
 }
 
+async function login() {
+    try {
+        fetch(`${stremioAPIBase}login`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                authKey: null,
+                email: stremioEmail.value,
+                password: stremioPassword.value,
+            })
+        }).then((resp) => {
+            resp.json().then((data) => {
+                console.log(data)
+                stremioAuthKey.value = data.result.authKey
+                loginButtonText.value = 'Logged in'
+            })
+        })
+    } catch (err) {
+        console.error(err);
+        alert('Login failed: ' + err.message);
+    }
+}
+
 </script>
 
 <template>
@@ -104,13 +133,23 @@ function getNestedObjectProperty(obj, path, defaultValue = null) {
         <h2>Configure</h2>
         <form onsubmit="return false;">
             <fieldset>
-                <legend>Step 0: Paste Stremio AuthKey</legend>
-                <p class="grouped">
-                    <input type="password" v-model="stremioAuthKey" placeholder="Paste Stremio AuthKey here...">
-                    <button class="button primary" @click="loadUserAddons">
-                        {{ loadAddonsButtonText }}
+                <legend>Step 0: Authenticate</legend>
+                 <p class="grouped">
+                    <input type="text" v-model="stremioEmail" placeholder="Stremio E-mail">
+                    <input type="password" v-model="stremioPassword" placeholder="Stremio Password">
+                    <button class="button primary" @click="login">
+                        {{ loginButtonText }}
                     </button>
                 </p>
+                <p>
+                    <strong>OR</strong>
+                </p>
+                <p class="grouped">
+                    <input type="password" v-model="stremioAuthKey" placeholder="Paste Stremio AuthKey here...">
+                </p>
+                 <button class="button primary" @click="loadUserAddons">
+                        {{ loadAddonsButtonText }}
+                    </button>
             </fieldset>
             <fieldset id="form_step1">
                 <legend>Step 1: Re-Order Addons</legend>
