@@ -17,6 +17,17 @@
         </details>
         <details>
             <summary>
+                Are my credentials safe?
+            </summary>
+            <p>
+                Yes. We only use your credentials to authenticate with the Stremio API. We do not store them in any way; as soon as you refresh the page they are gone.
+            </p>
+            <p>
+                If you're still in doubt, we highly encourage you to go read the source code. You'll see there's no hidden funny business going on.
+            </p>
+        </details>
+        <details>
+            <summary>
                 What is the developer console and how do I open it?
             </summary>
             <p>
