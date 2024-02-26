@@ -2,25 +2,17 @@
 import { ref } from 'vue'
 import draggable from 'vuedraggable'
 import AddonItem from './AddonItem.vue'
+import Authentication from './Authentication.vue'
 
 const stremioAPIBase = "https://api.strem.io/api/"
-
-const stremioAuthKey = ref('')
-const stremioEmail = ref('')
-const stremioPassword = ref('')
 const dragging = false
-
+let stremioAuthKey = ref('');
 let addons = ref([])
 let loadAddonsButtonText = ref('Load Addons')
-let loginButtonText = ref('Login')
-
-function getCleansedStremioAuthKey() {
-    return stremioAuthKey.value.replaceAll('"', '').trim();
-}
 
 function loadUserAddons() {
-    const cleansedAuthKey = getCleansedStremioAuthKey()
-    if (!cleansedAuthKey) {
+    const key = stremioAuthKey.value
+    if (!key) {
         console.error('No auth key provided')
         return
     }
@@ -33,7 +25,7 @@ function loadUserAddons() {
         method: 'POST',
         body: JSON.stringify({
             type: 'AddonCollectionGet',
-            authKey: cleansedAuthKey,
+            authKey: key,
             update: true,
         })
     }).then((resp) => {
@@ -54,8 +46,8 @@ function loadUserAddons() {
 }
 
 function syncUserAddons() {
-    const cleansedAuthKey = getCleansedStremioAuthKey()
-    if (!cleansedAuthKey) {
+    const key = stremioAuthKey.value
+    if (!key) {
         console.error('No auth key provided')
         return
     }
@@ -66,7 +58,7 @@ function syncUserAddons() {
         method: 'POST',
         body: JSON.stringify({
             type: 'AddonCollectionSet',
-            authKey: cleansedAuthKey,
+            authKey: key,
             addons: addons.value,
         })
     }).then((resp) => {
@@ -92,7 +84,6 @@ function removeAddon(idx) {
     addons.value.splice(idx, 1)
 }
 
-
 function getNestedObjectProperty(obj, path, defaultValue = null) {
     try {
         return path.split('.').reduce((acc, part) => acc && acc[part], obj)
@@ -101,30 +92,11 @@ function getNestedObjectProperty(obj, path, defaultValue = null) {
     }
 }
 
-async function login() {
-    try {
-        fetch(`${stremioAPIBase}login`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                authKey: null,
-                email: stremioEmail.value,
-                password: stremioPassword.value,
-            })
-        }).then((resp) => {
-            resp.json().then((data) => {
-                console.log(data)
-                stremioAuthKey.value = data.result.authKey
-                loginButtonText.value = 'Logged in'
-            })
-        })
-    } catch (err) {
-        console.error(err);
-        alert('Login failed: ' + err.message);
-    }
+function setAuthKey(authKey) {
+    stremioAuthKey.value = authKey
+    console.log('AuthKey set to: ', stremioAuthKey.value)
 }
+
 
 </script>
 
@@ -133,26 +105,16 @@ async function login() {
         <h2>Configure</h2>
         <form onsubmit="return false;">
             <fieldset>
-                <legend>Step 0: Authenticate</legend>
-                 <p class="grouped">
-                    <input type="text" v-model="stremioEmail" placeholder="Stremio E-mail">
-                    <input type="password" v-model="stremioPassword" placeholder="Stremio Password">
-                    <button class="button primary" @click="login">
-                        {{ loginButtonText }}
-                    </button>
-                </p>
-                <p>
-                    <strong>OR</strong>
-                </p>
-                <p class="grouped">
-                    <input type="password" v-model="stremioAuthKey" placeholder="Paste Stremio AuthKey here...">
-                </p>
-                 <button class="button primary" @click="loadUserAddons">
-                        {{ loadAddonsButtonText }}
-                    </button>
+                <Authentication :stremioAPIBase="stremioAPIBase" @auth-key="setAuthKey" />
             </fieldset>
             <fieldset id="form_step1">
-                <legend>Step 1: Re-Order Addons</legend>
+                <legend>Step 1: Load Addons</legend>
+                <button class="button primary" @click="loadUserAddons">
+                    {{ loadAddonsButtonText }}
+                </button>
+            </fieldset>
+            <fieldset id="form_step2">
+                <legend>Step 2: Re-Order Addons</legend>
                 <draggable :list="addons" item-key="transportUrl" class="sortable-list" ghost-class="ghost"
                     @start="dragging = true" @end="dragging = false">
                     <template #item="{ element, index }">
@@ -164,8 +126,8 @@ async function login() {
                     </template>
                 </draggable>
             </fieldset>
-            <fieldset id="form_step2">
-                <legend>Step 2: Sync Addons</legend>
+            <fieldset id="form_step3">
+                <legend>Step 3: Sync Addons</legend>
                 <button type="button" class="button primary icon" @click="syncUserAddons">Sync to Stremio
                     <img src="https://icongr.am/feather/loader.svg?size=16&amp;color=ffffff" alt="icon">
                 </button>
